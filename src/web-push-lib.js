@@ -106,6 +106,7 @@ WebPushLib.prototype.generateRequestDetails =
     let currentGCMAPIKey = gcmAPIKey;
     let currentVapidDetails = vapidDetails;
     let timeToLive = DEFAULT_TTL;
+    let agent;
     let extraHeaders = {};
 
     if (options) {
@@ -113,7 +114,8 @@ WebPushLib.prototype.generateRequestDetails =
         'headers',
         'gcmAPIKey',
         'vapidDetails',
-        'TTL'
+        'TTL',
+        'agent'
       ];
       const optionKeys = Object.keys(options);
       for (let i = 0; i < optionKeys.length; i += 1) {
@@ -150,6 +152,10 @@ WebPushLib.prototype.generateRequestDetails =
       if (options.TTL) {
         timeToLive = options.TTL;
       }
+
+      if (options.agent) {
+        agent = options.agent;
+      }
     }
 
     if (typeof timeToLive === 'undefined') {
@@ -162,6 +168,11 @@ WebPushLib.prototype.generateRequestDetails =
         TTL: timeToLive
       }
     };
+
+    if (agent) {
+      requestDetails.agent = agent;
+    }
+
     Object.keys(extraHeaders).forEach(function (header) {
       requestDetails.headers[header] = extraHeaders[header];
     });
