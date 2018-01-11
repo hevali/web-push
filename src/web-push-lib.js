@@ -106,7 +106,7 @@ WebPushLib.prototype.generateRequestDetails =
     let currentGCMAPIKey = gcmAPIKey;
     let currentVapidDetails = vapidDetails;
     let timeToLive = DEFAULT_TTL;
-    let agent;
+    let agent = false;
     let extraHeaders = {};
 
     if (options) {
@@ -166,12 +166,9 @@ WebPushLib.prototype.generateRequestDetails =
       method: 'POST',
       headers: {
         TTL: timeToLive
-      }
+      },
+      agent: agent
     };
-
-    if (agent) {
-      requestDetails.agent = agent;
-    }
 
     Object.keys(extraHeaders).forEach(function (header) {
       requestDetails.headers[header] = extraHeaders[header];
@@ -270,6 +267,7 @@ WebPushLib.prototype.sendNotification =
 
       httpsOptions.headers = requestDetails.headers;
       httpsOptions.method = requestDetails.method;
+      httpsOptions.agent = requestDetails.agent;
 
       const pushRequest = https.request(httpsOptions, function(pushResponse) {
         let responseText = '';
