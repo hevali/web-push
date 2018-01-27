@@ -21,15 +21,13 @@ export interface PushSubscription {
 }
 
 export interface PushOptions {
-    gcmAPIKey: string;
-    vapidDetails: VAPIDKeys & {
+    gcmAPIKey?: string;
+    vapidDetails?: VAPIDKeys & {
         subject: string;
     };
-    TTL: number;
-    headers: {
-        [key: string]: string;
-    }
-    agent: any
+    TTL?: number;
+    headers?: Headers;
+    agent?: any
 }
 
 interface VAPIDKeys {
@@ -46,16 +44,14 @@ interface EncryptedData {
 interface RequestDetails {
     endpoint: string;
     method: string;
-    headers: {
-        [key: string]: string;
-    };
+    headers: Headers;
     body: Buffer;
 }
 
 interface PushResponse {
     statusCode: number;
-    headers: {
-        [key: string]: string;
-    };
+    headers: Headers;
     body: any;
 }
+
+type Headers = { [key: string]: string; };
